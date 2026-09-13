@@ -13,7 +13,7 @@ fedora_version() {
     printf '%s\n' "$version"
 }
 validate_fedora() {
-    FEDORA_VERSION=$(fedora_version) || die 'This installer supports Fedora KDE, not this operating system.'
+    FEDORA_VERSION=$(fedora_version /etc/os-release) || die 'This installer supports Fedora KDE, not this operating system.'
     case "$FEDORA_VERSION" in
         43|44) ;;
         *) die "Fedora $FEDORA_VERSION is outside the researched 43/44 range. Review compatibility before adding a release." ;;

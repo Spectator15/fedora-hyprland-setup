@@ -10,6 +10,7 @@ export STATE_DIR=$test_home/state PROJECT_HOME=$test_home/project
 export XDG_RUNTIME_DIR=$test_home/run
 mkdir -p "$XDG_RUNTIME_DIR"
 chmod 700 "$XDG_RUNTIME_DIR"
+Hyprland --version
 dms version
 python3 "$ROOT/tests/check-desktop-entry.py"
 dms setup headless --compositor hyprland --terminal kitty --no-systemd

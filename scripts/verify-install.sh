@@ -18,7 +18,7 @@ check() {
     local label=$1; shift
     if "$@"; then log "PASS: $label"; else warn "FAIL: $label"; failures=$((failures + 1)); fi
 }
-version=$(fedora_version || true)
+version=$(fedora_version /etc/os-release || true)
 case "$version" in
     43|44) log "PASS: Fedora $version" ;;
     *) warn 'FAIL: expected Fedora 43/44'; failures=$((failures + 1)) ;;

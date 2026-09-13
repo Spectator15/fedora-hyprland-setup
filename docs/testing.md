@@ -40,6 +40,11 @@ Reproducible failures found and fixed included the DMS version command, Fedora
 after uninstall, and preflight checks before lock/file mutations. Tests validate
 the specific failure behaviours, not just copied implementation strings.
 
+The first CI run also exposed ShellCheck 0.9's handling of optional function
+arguments and Hyprland's requirement for `XDG_RUNTIME_DIR` even for `--version`.
+Callers now pass the OS-release path explicitly, and the native version probe runs
+as the test user after creating its private runtime directory.
+
 ## Run tests
 
 On Linux, install Python 3, Bash, ShellCheck and Lua 5.4, then:
