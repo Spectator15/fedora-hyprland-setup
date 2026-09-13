@@ -1,0 +1,27 @@
+name: Validate
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  static-and-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: sudo apt-get update && sudo apt-get install -y shellcheck lua5.4
+      - run: bash tests/run.sh
+  fedora-native:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fedora: [43, 44]
+    container: registry.fedoraproject.org/fedora:${{ matrix.fedora }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Resolve packages and validate real DMS/Hyprland configuration
+        env:
+          FH_DISPOSABLE_TEST: '1'
+        run: bash tests/fedora-packages.sh

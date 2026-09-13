@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# D-Bus activation updates belong only to this session's private bus.
+set -Eeuo pipefail
+args=()
+for arg in "$@"; do
+    [[ $arg == --systemd ]] || args+=("$arg")
+done
+exec /usr/bin/dbus-update-activation-environment "${args[@]}"

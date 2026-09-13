@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Hyprland 0.56.2's exec-once path ignores HYPRLAND_NO_SD_VARS. Prevent only
+# shared user-manager environment writes; all other systemctl commands delegate.
+set -Eeuo pipefail
+user_scope=0 environment_write=0
+for arg in "$@"; do
+    case "$arg" in
+        --user) user_scope=1 ;;
+        import-environment|set-environment|unset-environment) environment_write=1 ;;
+    esac
+done
+if (( user_scope && environment_write )); then
+    printf '[fedora-hyprland] Shared user environment update skipped; this session uses a private D-Bus environment.\n' >&2
+    exit 0
+fi
+exec /usr/bin/systemctl "$@"
